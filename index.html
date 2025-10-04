@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Verbal Memory Game</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <div class="outer-container">
+        <div class="container">
+            <h1>Verbal Memory Game</h1>
+            <div id="start-screen">
+                <input type="text" id="playerName" placeholder="Enter your name" />
+                <button id="startBtn">Start Game</button>
+            </div>
+
+            <div id="game-screen" class="hidden">
+                <p>Score: <span id="score">0</span> | Strikes: <span id="strikes">0</span>/3</p>
+                <div class="word-box" id="wordBox">Press Start</div>
+                <div class="btn-group">
+                    <button id="seenBtn">Seen</button>
+                    <button id="newBtn">New</button>
+                </div>
+            </div>
+
+            <div id="end-screen" class="hidden">
+                <h2>Game Over!</h2>
+                <p>Your Score: <span id="finalScore">0</span></p>
+                <button id="restartBtn">Play Again</button>
+            </div>
+
+        </div>
+        <div id="leaderboard">
+            <h2>Leaderboard</h2>
+            <ul id="leaderboardList"></ul>
+            <button id="clearLeaderboard">Clear Leaderboard</button>
+        </div>
+    </div>
+</body>
+
+</html>
