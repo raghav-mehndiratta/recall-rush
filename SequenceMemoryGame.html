@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sequence Memory Game</title>
+  <link rel="stylesheet" href="SequenceMemoryGame.css" />
+  <script src="SequenceMemoryGame.js" defer></script>
+</head>
+
+<body>
+  <div class="outer-container">
+    <div class="container">
+      <h1>Sequence Memory Game</h1>
+
+      <!-- Start Screen -->
+      <div id="start-screen" class="panel">
+        <input type="text" id="playerName" placeholder="Enter your name" />
+        <button id="startBtn">Start Game</button>
+      </div>
+
+      <!-- Game Screen -->
+      <div id="game-screen" class="panel hidden">
+        <p>
+          Score: <span id="score">0</span>
+          &nbsp;|&nbsp;
+          Strikes: <span id="strikes">0</span>/3
+        </p>
+        <p class="hint">Watch the flashing tiles, then click them in the same order.</p>
+        <div class="grid" id="grid" aria-label="game grid"></div>
+      </div>
+
+      <!-- End Screen -->
+      <div id="end-screen" class="panel hidden">
+        <h2>Game Over!</h2>
+        <p>Your Score: <span id="finalScore">0</span></p>
+        <button id="restartBtn">Play Again</button>
+      </div>
+    </div>
+
+    <!-- Leaderboard -->
+    <div id="leaderboard" class="panel">
+      <h2>Leaderboard</h2>
+      <ul id="leaderboardList"></ul>
+      <button id="clearLeaderboard">Clear Leaderboard</button>
+    </div>
+  </div>
+</body>
+
+</html>
