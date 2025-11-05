@@ -1,19 +1,16 @@
-// SequenceMemoryGame.js (deferred)
+// class logic
 class SequenceMemoryGame {
   constructor() {
-    // game data
     this.sequence = [];
     this.userSequence = [];
     this.score = 0;
     this.playerName = "";
     this.inputEnabled = false;
 
-    // DOM
     this.gridEl = document.getElementById("grid");
     this.scoreEl = document.getElementById("score");
     this.finalScoreEl = document.getElementById("finalScore");
 
-    // create grid tiles
     this.generateGrid();
   }
 
@@ -23,15 +20,7 @@ class SequenceMemoryGame {
       const tile = document.createElement("div");
       tile.className = "tile";
       tile.dataset.index = i;
-      tile.setAttribute("role", "button");
-      tile.setAttribute("tabindex", 0);
       tile.addEventListener("click", () => this.handleTileClick(i));
-      tile.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          this.handleTileClick(i);
-        }
-      });
       this.gridEl.appendChild(tile);
     }
   }
@@ -41,8 +30,6 @@ class SequenceMemoryGame {
     this.sequence = [];
     this.userSequence = [];
     this.score = 0;
-    this.updateUI();
-    this.clearAllTileStates();
     this.nextRound();
   }
 
@@ -64,32 +51,30 @@ class SequenceMemoryGame {
     for (let idx of this.sequence) {
       const tile = tiles[idx];
       tile.classList.add("flash");
-      await this.sleep(600);
+      await this.sleep(400);
       tile.classList.remove("flash");
       await this.sleep(200);
     }
   }
 
-  handleTileClick(index) {
+  handleTileClick(clickedTileIndex) {
     if (!this.inputEnabled) return;
 
     const tiles = document.querySelectorAll(".tile");
-    const tile = tiles[index];
-    this.userSequence.push(index);
+    const tile = tiles[clickedTileIndex];
+    this.userSequence.push(clickedTileIndex);
     tile.classList.add("selected");
 
     const step = this.userSequence.length - 1;
-    const correctIndex = this.sequence[step];
+    const expectedTileIndex = this.sequence[step];
 
-    if (index !== correctIndex) {
-      // wrong tile → instant game over
+    if (clickedTileIndex !== expectedTileIndex) {
       tile.classList.add("wrong");
       this.inputEnabled = false;
-      setTimeout(() => this.endGame(), 800);
+      setTimeout(() => this.endGame(), 600);
       return;
     }
 
-    // correct so far
     if (this.userSequence.length === this.sequence.length) {
       this.score++;
       this.updateUI();
@@ -107,12 +92,20 @@ class SequenceMemoryGame {
   }
 
   saveScore() {
-    const key = "sequenceLeaderboard";
-    const leaderboard = JSON.parse(localStorage.getItem(key)) || [];
-    leaderboard.push({ name: this.playerName || "Player", score: this.score });
+    const key = "leaderboard";
+    let leaderboard = JSON.parse(localStorage.getItem(key)) || [];
+
+    const existing = leaderboard.find(entry => entry.name === this.playerName);
+    if (existing) {
+      existing.score = Math.max(existing.score, this.score);
+    } else {
+      leaderboard.push({ name: this.playerName, score: this.score });
+    }
     leaderboard.sort((a, b) => b.score - a.score);
-    localStorage.setItem(key, JSON.stringify(leaderboard.slice(0, 10)));
+
+    localStorage.setItem(key, JSON.stringify(leaderboard));
   }
+
 
   updateUI() {
     this.scoreEl.textContent = this.score;
@@ -128,7 +121,7 @@ class SequenceMemoryGame {
   }
 }
 
-/* ------------------- Main App Wiring ------------------- */
+// Main logic
 const game = new SequenceMemoryGame();
 
 const startBtn = document.getElementById("startBtn");
@@ -143,7 +136,6 @@ startBtn.addEventListener("click", () => {
   }
   document.getElementById("start-screen").classList.add("hidden");
   document.getElementById("game-screen").classList.remove("hidden");
-  document.getElementById("end-screen").classList.add("hidden");
   game.start(name);
 });
 
@@ -154,14 +146,14 @@ restartBtn.addEventListener("click", () => {
 });
 
 clearLeaderboardBtn.addEventListener("click", () => {
-  localStorage.removeItem("sequenceLeaderboard");
+  localStorage.removeItem("leaderboard");
   updateLeaderboard();
 });
 
 function updateLeaderboard() {
   const list = document.getElementById("leaderboardList");
   list.innerHTML = "";
-  const leaderboard = JSON.parse(localStorage.getItem("sequenceLeaderboard")) || [];
+  const leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
   leaderboard.forEach((entry, i) => {
     const li = document.createElement("li");
     li.textContent = `${i + 1}. ${entry.name} — ${entry.score}`;

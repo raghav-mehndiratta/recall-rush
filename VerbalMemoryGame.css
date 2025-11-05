@@ -1,6 +1,6 @@
 :root {
   --bg: #ffffff;
-  --card: #2B87D1;
+  --card: #eaf6ff;
   --accent: #38bdf8;
   --muted: #cbd5e1;
   --success: #22c55e;
@@ -11,7 +11,7 @@
 body {
   margin: 0;
   background: var(--bg);
-  color: white;
+  color: black;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -69,7 +69,6 @@ button:hover {
 
 #seenBtn {
   background: var(--accent);
-  color: black;
 }
 
 #newBtn {
@@ -103,7 +102,6 @@ button:hover {
 }
 
 #leaderboard {
-  /* margin-top: 2rem; */
   background-color: white;
   padding-left: 60px;
   padding-right: 60px;
@@ -125,6 +123,7 @@ button:hover {
 #leaderboardList {
   list-style: none;
   padding: 0;
+  color: white;
 }
 
 #leaderboardList li {
@@ -133,4 +132,26 @@ button:hover {
   padding: 0.5rem;
   border-radius: 6px;
   display: flex;
+}
+
+/* tablets (width <768px) */
+@media (max-width: 768px) {
+  .container h1 {
+    font-size: 50px;
+    word-spacing: 6px;
+  }
+}
+
+/*  mobile (width < 480px) */
+@media (max-width: 480px) {
+  .container h1 {
+    font-size: 32px;
+    word-spacing: 3px;
+    letter-spacing: 0.5px;
+  }
+  input {
+    padding: 4px;
+    width: 200px;
+    height: 26px;
+  }
 }

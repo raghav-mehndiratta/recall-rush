@@ -1,4 +1,3 @@
-// Class for Game Cards
 class GameCard {
   constructor(title, description, image, link) {
     this.title = title;
@@ -21,7 +20,7 @@ class GameCard {
   }
 }
 
-// Data for different games
+
 const games = [
   new GameCard(
     "Verbal Memory",
@@ -32,12 +31,11 @@ const games = [
   new GameCard(
     "Sequence Memory",
     "Memorize patterns and test your visual recall abilities.",
-    "https://images.unsplash.com/photo-1513475382585-d06e58bcb0ea?w=600",
+    "https://www.lumabox.com/wp-content/uploads/2021/09/flipping-tiles-holiday-house-video-digital-decoration-projection-mapping-luma-box-product-image-1200x1200.jpg",
     "SequenceMemoryGame.html"
   )
 ];
 
-// Rendering the cards dynamically
 document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("game-container");
   games.forEach(game => {

@@ -1,11 +1,14 @@
-// Class for the Verbal Memory Game
+// class logic
 class VerbalMemoryGame {
   constructor(playerName) {
     this.playerName = playerName;
     this.words = [
       "apple", "banana", "car", "dog", "elephant", "fish", "grape", "house", "ice",
       "jungle", "kite", "lion", "mountain", "notebook", "orange", "pencil", "queen",
-      "river", "sun", "tree", "umbrella", "village", "wolf", "xylophone", "yarn", "zebra"
+      "river", "sun", "tree", "umbrella", "village", "wolf", "xylophone", "yarn", "zebra",
+      "airplane", "bridge", "camera", "desert", "engine", "forest", "garden", "hotel",
+      "internet", "jacket", "keyboard", "laptop", "machine", "network", "ocean", "planet",
+      "robot", "satellite", "tower", "universe", "volcano", "window", "yacht", "zoo"
     ];
     this.seenWords = new Set();
     this.currentWord = "";
@@ -54,15 +57,18 @@ class VerbalMemoryGame {
     document.getElementById("end-screen").classList.remove("hidden");
     document.getElementById("finalScore").textContent = this.score;
 
+    document.getElementById("seenBtn").disabled = true;
+    document.getElementById("newBtn").disabled = true;
+
     Leaderboard.saveScore(this.playerName, this.score);
     Leaderboard.render();
   }
 }
 
-// Leaderboard with localStorage CRUD
+// leaderboard and localstoarage logic
 class Leaderboard {
   static getData() {
-    return JSON.parse(localStorage.getItem("leaderboard")) || [];
+    return JSON.parse(localStorage.getItem("leaderboardVerbal")) || [];
   }
 
   static saveScore(name, score) {
@@ -71,17 +77,17 @@ class Leaderboard {
 
     if (existing) {
       if (score > existing.score) {
-        existing.score = score; // update high score
+        existing.score = score;
       }
     } else {
       data.push({ name, score });
     }
 
-    localStorage.setItem("leaderboard", JSON.stringify(data));
+    localStorage.setItem("leaderboardVerbal", JSON.stringify(data));
   }
 
   static clear() {
-    localStorage.removeItem("leaderboard");
+    localStorage.removeItem("leaderboardVerbal");
   }
 
   static render() {
@@ -99,7 +105,7 @@ class Leaderboard {
   }
 }
 
-// DOM Events
+// main app logic
 let game;
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -121,6 +127,9 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("start-screen").classList.add("hidden");
     document.getElementById("game-screen").classList.remove("hidden");
 
+    seenBtn.disabled = false;
+    newBtn.disabled = false;
+
     game = new VerbalMemoryGame(name);
     game.updateUI();
     game.nextWord();
@@ -132,6 +141,11 @@ document.addEventListener("DOMContentLoaded", () => {
   restartBtn.addEventListener("click", () => {
     document.getElementById("end-screen").classList.add("hidden");
     document.getElementById("start-screen").classList.remove("hidden");
+
+    document.getElementById("score").textContent = "0";
+    document.getElementById("strikes").textContent = "0";
+    document.getElementById("wordBox").textContent = "Press Start";
+    document.getElementById("playerName").value = "";
   });
 
   clearBtn.addEventListener("click", () => {

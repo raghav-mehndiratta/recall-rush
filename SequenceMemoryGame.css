@@ -1,11 +1,13 @@
-/* Basic layout */
 :root {
   --primary: #1976d2;
   --light: #e3f2fd;
   --tile-size: 86px;
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: 'Poppins', system-ui, sans-serif;
   background: linear-gradient(135deg, #eaf6ff, #d7eefc);
@@ -17,12 +19,12 @@ body {
   padding: 24px;
 }
 
-/* Containers */
 .outer-container {
   display: flex;
   gap: 28px;
   align-items: flex-start;
 }
+
 .container {
   background: white;
   padding: 22px;
@@ -31,10 +33,16 @@ body {
   width: 380px;
   text-align: center;
 }
-.panel { margin-bottom: 12px; }
-h1 { margin: 8px 0 14px; color: var(--primary); }
 
-/* Inputs + buttons */
+.panel {
+  margin-bottom: 12px;
+}
+
+h1 {
+  margin: 8px 0 14px;
+  color: var(--primary);
+}
+
 #playerName {
   padding: 10px;
   width: 66%;
@@ -43,6 +51,7 @@ h1 { margin: 8px 0 14px; color: var(--primary); }
   margin-right: 8px;
   font-size: 14px;
 }
+
 button {
   padding: 10px 14px;
   background: var(--primary);
@@ -52,9 +61,11 @@ button {
   cursor: pointer;
   font-weight: 600;
 }
-button:hover { filter: brightness(0.95); }
 
-/* grid & tiles */
+button:hover {
+  filter: brightness(0.95);
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(3, var(--tile-size));
@@ -77,17 +88,15 @@ button:hover { filter: brightness(0.95); }
   transition: transform 120ms ease, background-color 150ms ease, box-shadow 120ms ease;
   user-select: none;
   font-weight: 700;
-  color: rgba(0,0,0,0.6);
+  color: rgba(0, 0, 0, 0.6);
 }
 
-/* Flash when sequence shows (temporary) */
 .tile.flash {
   background-color: #bbdefb;
   transform: scale(1.06);
   box-shadow: 0 8px 18px rgba(33, 150, 243, 0.12);
 }
 
-/* Selected by player (persists until next round) */
 .tile.selected {
   background-color: #64b5f6;
   color: white;
@@ -95,7 +104,6 @@ button:hover { filter: brightness(0.95); }
   box-shadow: 0 10px 24px rgba(100, 181, 246, 0.14);
 }
 
-/* Wrong click visual */
 .tile.wrong {
   background-color: #ef9a9a;
   color: white;
@@ -103,7 +111,6 @@ button:hover { filter: brightness(0.95); }
   box-shadow: 0 10px 24px rgba(239, 154, 154, 0.12);
 }
 
-/* Leaderboard */
 #leaderboard {
   background: white;
   padding: 18px;
@@ -111,12 +118,18 @@ button:hover { filter: brightness(0.95); }
   width: 260px;
   box-shadow: 0 8px 30px rgba(15, 30, 60, 0.06);
 }
-#leaderboard h2 { color: var(--primary); margin-top: 0; }
+
+#leaderboard h2 {
+  color: var(--primary);
+  margin-top: 0;
+}
+
 #leaderboardList {
   list-style: none;
   padding: 0;
   margin: 10px 0;
 }
+
 #leaderboardList li {
   background: var(--light);
   margin-bottom: 8px;
@@ -125,6 +138,82 @@ button:hover { filter: brightness(0.95); }
   font-weight: 600;
 }
 
-/* Utility */
-.hidden { display: none; }
-.hint { color: #546e7a; font-size: 13px; margin-top: 4px; }
+.hidden {
+  display: none;
+}
+
+.hint {
+  color: #546e7a;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+
+/* tablets and smaller laptops */
+@media (max-width: 900px) {
+  .outer-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #leaderboard {
+    width: 90%;
+    margin-top: 20px;
+  }
+
+  .container {
+    width: 90%;
+  }
+}
+
+/* mobile devices */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 28px;
+  }
+
+  #playerName {
+    width: 100%;
+    margin: 0 0 10px 0;
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(3, 70px);
+    grid-template-rows: repeat(3, 70px);
+    gap: 8px;
+  }
+
+  .tile {
+    font-size: 14px;
+  }
+
+  body {
+    padding: 12px;
+  }
+
+  .outer-container {
+    gap: 18px;
+  }
+}
+
+/* very small screens */
+@media (max-width: 400px) {
+  h1 {
+    font-size: 22px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(3, 60px);
+    grid-template-rows: repeat(3, 60px);
+    gap: 6px;
+  }
+
+  .tile {
+    font-size: 12px;
+  }
+}
